@@ -1,0 +1,578 @@
+os-
+
+user
+-----
+os - kernel
+-----
+hardware
+kernel-
+
+unix- os - 1st portable os
+Linux - kernel
+Batch os -- 1.  user(i/p)---> os
+                 wait
+            2, os- hw dependent
+
+ osA---XA
+  |------------------------|XB--> osB  --> pdp(ASM)
+
+1950
+
+AT&T,
+
+Ken thomson  and Dennis Ritchie
+
+|---portability
+
+BCPL B-  kernel- ken thomson
+     |
+    B+ 1969-- kernel---> portable
+    |
+1971-72  C language ----> unix os---------> server based os. Code not shared
+
+
+os=kernel + utilities
+unix (os)
+Linux(kernel)
+Richard Stallman 1983 - GNU
+-prj
+  - free sw movement
+-only service is costable 
+-copy Left rule
+- hurd(kernel) -- not in production
+
+
+finland - Prof Tanenbaum
+                 |
+               minix (kernel)
+                |
+                 Linus Torvald student- semaphore
+                   |
+                 unix and build a new kernel-----> Linux--> GNU  1991
+
+GZib
+Gcc
+Gdb
+Linux 
+----------------------------------------------------------
+
+Distributors--> Red hat, Debian, Oracle
+ 
+tools + kernel====> os
+
+redhat--> RH
+Debian- ubuntu, mint
+
+redhat   |   Debian
+pkg managt   - pkg mgmt
+yum             apt
+
+
+kernel.org--> mainline kernel
+
+oracle Linux
+-------
+
+based on RHL std
+
+RHL7- yum install python3 
+
+Ubuntu- apt-get install python3
+
+uname  --
+ls      ..|------ linux kernel
+
+OracleLinux
+
+OL[5678]----> RHL[5678]
+
+RHl5--->OL5
+RHL6--->OL6
+==================================================================================
+
+kernel - Linux
+|------|
+file  process
+
+what is file--> file --> data under storage
+what is process--> process-- data under CPU
+
+
+user
+---------
+kernel  CPU-->data  ---> process
+--------
+hardware  HD(data)
+           |
+         file
+
+
+1. fetch data from mem
+2. store data to reg (Cpu)
+3. execute instruction------< Process
+
+
+date--> userview---> cmd
+
+File, Process---> cmd result
+ |
+/bin/date------>binaries
+
+
+Linux Kernel Architecture
+------------------------------
+
+user
+|
+shell-- commandline i/f btwn user and kernel
+          cmd
+----       |
+        systemcall()
+            |
+	Filesystem------> PCB|IPC,Schde,mm,net...|
+          |
+          Device Driver
+           |
+           Device controller
+kernel     |
+-----------|----------
+          hw      
+
+strace command
+
+systemcall()= fd file descriptor
+              fd=0--- <STDIN>
+              fd=1----<STDOUT>
+               fd=2---<SRDERR>
+fd=3 to 2power of 32/64--------> validcalls
+fd= 0x100- mem mapping
+
+fd=-1-------------------> failed systemcall
+
+
+shell- interface btwn user and kernel
+ - cmd line i/f
+
+1. BourneShell (sh)---|
+2. Korn shell (ksh)---|--------AT &T-- unix
+
+3. C shell --- csh ----BSD Distributors
+4. Bourne Again shell---bash--- GNU---------default shell in all Linux distribution
+
+----------------------------------------------------------------------------------
+
+1.how to find your working shell?
+
+ps 
+(or)
+
+echo $0  => shell variable
+
+2.how to find list of shells ?
+
+cat /etc/shells
+
+3. switch between shell
+
+sh <--|
+
+--------------------------------------------------------------------
+
+
+Linux File structure
+---------------------
+
+/ rootdirectory
+
+|-----------------------------------------------------------------------------------
+|         |           |         |        |        |         |
+/bin     /usr/bin    /sbin      /etc     /proc     /root ~#  non root user  /home/nonroot
+
+
+/var 
+   log---
+    mail--
+     cron--
+
+/mnt /media 
+
+Linux file type
+---------------
+
+1. Regular file ----------->ASCII/text 
+                 |------------------------ELF  /bin   linux command files
+2. dir file
+3. link file
+4. device file------char -- char by char eg. printer ,ternimal
+                |---block -- Storage
+5.named pipe or fifo
+6. socket file
+
+
+to determine file type?
+
+file<space>filename
+
+-------------------------------------------------------------------
+3 style
+--------
+1. command only 
+command
+ex:date
+uname
+
+2. command with option
+
+ls -l
+
+date +%D
+
+3. command with command
+
+echo "Today date is: `date +%D`"
+                     |
+                     backquote
+-----------------------------------------------------------
+
+man command
+
+enter- line by line
+
+space - page by page view
+
+/pattern
+
+n
+
+------------------------------------------------
+mkdir- create new directory
+
+mkdir<space>directoryname
+
+mkdir<space>dir1<space>dir2<space>dir3  
+
+pwd- present working directory
+
+
+d1
+|---sd1
+     |----ssd1
+
+mkdir -p d1/sd1/ssd1
+       |
+ls - view the list of all files
+
+ls - list files under current directory 
+
+ls d1 -  list of all files under d1 directory
+    
+ls -R
+     recursive view
+
+ls -r
+     reverse 
+    
+ls -a - to view hidden file also
+cd - change directory
+
+cd <dir>
+
+cd <dir1>/dir2/dir3
+
+pwd
+
+=======================================
+
+delete a directory
+
+rmdir directoryname   - deletes only empty directory
+
+rm -r directoryname   - deletes recursively non empty directory
+
+=============================================
+
+copy old dir to new dir
+cp -r olddir newdir
+
+mv olddir newdir    rename
+
+mv oldir1 old2   move
+
+
+======================================================================================================
+ 
+Task
+=====
+1. open a terminal 
+display loginname (whoami)
+         shellname (echo $0)
+          current working directory (pwd)
+
+2. create a new directory ERP (mkdir)
+   Get into ERP (cd)
+   display current working directory  (pwd)
+   display list of files (ls   or ls -a)
+
+
+3. list the configuration files from /etc
+
+4. list the log file  /var/log
+
+5. ps
+
+6. man command     
+
+===========================================================================
+
+Task
+=====
+Go to login path 
+
+create a newdirectory called project
+
+go to project directory
+
+create 3 subdirectories prod dev test
+
+go to prod subdirectory
+
+create 3 subdirectories recursively  stage1/stage2/stage3
+
+back to project directory
+
+display list of files recursively .
+
+======================================================================================
+
+to determine file type..
+file filename
+
+(or)
+
+ls -L
+
+To create a regular file--> ASCII /text file
+==========================
+vi editor
+
+vi filename{enter}
+
+|---------------------------|
+
+command mode {press esc}    insert mode  {type i}
+
+
+...
+...
+press esc
+:wq   save and exit
+q!    force to quit
+
+To read content of file
+=====================
+
+cat filename  --> open file in read only mode
+
+
+To copy/rename/move file
+========================
+cp file1 file2
+
+cp -i file1 file2
+
+cp p1.txt D1
+
+mv file.java file.py 
+
+mv file.java D1
+
+To remove file
+==============
+rm -i <filename>
+-----------------------------------------------------------------------------------
+Metacharacters
+===============
+*   list of all
+
+ls p*
+
+? -- single char
+
+ls p?
+  P<anyonesinglechar>
+
+[]  character class
+
+p[a-z]    p[12] --> p1 p2 
+pa            
+pb
+pc
+
+not matched 
+paa            p31  p3
+
+------------------------------------------------------------------
+command
+command---> monitor
+
+redirection
+-----------
+
+command>resultfile
+       |
+       create a newfile
+        write cmd result to file
+
+if resultfile is already available, over writting takes place.
+
+command>>resultfile
+
+       |
+      append 
+
+------------------------------------------------------------------------------------------
+
+Task
+=====
+
+execute date command and redirect the output to result.log 
+"       ls               "                     "
+"      ps                "                   "
+"      pwd              "                    "
+
+display result.log file
+
+==========================================================================
+
+wc filename
+|
+|
+3 nos
+
+no. of lines  wc -l filename
+no. of words  wc -w filename
+no. of characters   wc -c filename
+
+-----------------------------------------------------------
+
+head 
+   head filename  ---> first 10 lines of your file
+   head -n5 filename --> first 5 lines of content
+tail
+  tail filename -----> last 10 lines of file content
+  tail -n5 filename --> last 5 lines of file content
+more
+ more filename
+  line by line
+less
+ less filename
+ page by page (home end pageup pagedown)
+-----------------------------------------------------------------------------------
+Link file
+|
+----Hard link 
+----Soft/ Symbolic link
+
+file filename
+
+ln result.log pp.log  ===> Hardlink            ln -s result.log pps.log  ==> softlink
+
+ls -i                                            ls -i
+
+index nos are same                                  index nos are different
+
+
+result.log   pp.log                                       result.log pps.log
+---------------------                                     ------------------
+kernel                                                         kernel
+|                                                               |
+HD                                                            HD
+
+rm result.log                                                rm result.log
+cat pp.log - OK                                              cat pps.log   ----> broken file
+
+
+cp p1.txt p2.txt
+
+vi p1.txt
+12334
+:wq
+
+cat p2.txt
+
+mv
+rm
+
+touch filename - creates empty file
+=========================================================================================
+
+grep -command performs a pattern based search operation
+
+grep option pattern filename
+
+
+ -i  ignorecase
+
+ -c count 
+ 
+ -n line number of matched pattern
+ 
+ -v not matched pattern 
+
+ -l matched pattern filename
+
+ -R  recursive search 
+
+task
+====
+redirect the command result of displaying
+ list of all files under /dev to new.log
+
+use grep to find terminal tty pattern
+  from new.log
+
+==========================================
+
+find - search a file 
+         |
+     based on
+      |              options
+      |--- name      -name   ignore case -iname
+      |---- type     -type
+      |-----size     -size
+      |----permission -perm
+
+find path -name emp.csv
+find / -name emp.csv
+find -iname EMP.csv
+
+find -type f ---> finding list of all reg files under current directory
+
+d - directory
+c- character type
+b - block file
+l - link file
+
+find /dev -type b
+
+find / -size +50k - list of all files greater than 50k
+
+find / -size -50K - "        " less than "
+
+==========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
