@@ -1,0 +1,718 @@
+
+uname
+whoai
+hostname
+whatis
+ls
+pwd
+ps
+date
+cal
+mkdir
+cd
+cp
+mv
+rmdir (or) rm
+vi 
+>  (or) >>
+cp
+mv
+cat 
+head tail
+more
+less
+touch
+ln  (option -s)
+file (or) ls -F
+rm
+text based search== grep
+find-- name,size,type
+===============================================================================
+pipe |
+command1| command2
+ ------
+  |------->--|
+o/p         i/p
+
+
+command | head --> top lines from cmd output
+
+command| tail ---> last "     "
+
+
+
+grep options pattern inputfile
+
+command1|grep option pattern
+
+ls -l|head
+
+ps -e|tail
+
+--------------------------------------------------------------------------------------
+
+redirection  ---> 
+
+command{enter}
+ |
+|---------------|
+|		|
+|		|
+STDOUT         STDERR
+
+
+date > f1.log  =========same as =====>  date 1> f1.log
+     |                                       |
+     create a file                            FD
+     write STDOUT to file
+
+
+command FD>resultfile
+  
+FD=1    refers to STDOUT
+
+FD-2   "      "   STDERR
+
+hostname 1> res.log        STDOUT/ cmd result is written to file
+
+hostname 1>> res.log     STDOUT / cmd result is appended to file
+
+hostnamee 2> res.log       STDERR is written to file
+
+Hostname 2>>res.log     STDERR is appeded to file
+
+
+execute a command and redirect stdout and stderr to different files 
+===================================================================
+
+command >> result.log   2>> err.log
+
+same as
+
+command 1>> result.log 2>> err.log
+
+command
+| 
+Valid Fd=1 ---- stdout > file1 
+
+command
+|
+Inavlid Fd=2 ----STDERR > file2
+
+execute command and redirect STDOUT and STDERR to a common file
+----------------------------------------------------------------
+
+command >> commonfile 2>&1
+
+command
+| valid  FD=1--- stdout --- file 
+
+command
+|
+invald   fd=2 ---- stderr --redirects to stdout---write/append to file
+
+====================================================================================
+
+
+cmd > A.txt
+cmd >> A.txt
+cmd 1>> A.txt 2>>B.txt
+
+cmd >> A.txt 2>&1
+
+====================================================================================
+
+File Permission
+----------------
+
+File (F)---- by 3 users   - 1. user/owner/author (u)
+                            2. group (g)
+			    3. others (o)
+---------------------------------------------------------//read write execute
+                                                            r      w   x
+
+cat file --- read 
+
+vi file ---- write
+
+cat > file--- write
+ 
+head ---- read
+
+p1.py ---x -- run file to perform task
+
+
+user-> rwx  rw-
+
+group-> rwx r-x
+
+other -> rwx  r--
+
+To assign permission to user
+
+chmod userdetails + flag inputfile
+
+chmod u+x inputfile
+      ----
+       |-----------------assigns execute permission for user
+chmod ug+x filename
+      ----
+       |-----------------assigns execute permimssion for both user and group
+
+
+chmod u-x inputfile
+     ----
+      |----------------removes the execute permission from user
+
+chmod ug-x filename
+       ---
+        |----------------------removesthe execute permissiom from user
+
+
+chmod a+x filename
+    ----
+     |--------------------assigns execute permission for all the users
+is same as
+     |
+chmod +x filename
+======================================================================================
+
+ r	w	x
+ 1	1	1      -> 7 (rwx)
+ 1	1	-      -> 6 ( rw-)
+ 1	-	1      -> 5 (r-x)
+ 1	-	-      -> 4 (r--)
+ -	-	-      -> 0(---)
+
+
+chmod 754 filename
+      || |
+   user| |---- other (r--)
+  rwx  |
+       group
+        r-x
+=======================================================================================
+
+task
+====
+
+1. create a file using cat> file
+   write following commands to the file
+    uname -rs
+    whoami
+    pwd
+    date +%D
+    sleep 5
+    echo "Thankyou"
+
+2. check the file permission
+
+3. Assign execute permission for all users.
+
+4. run the file & redirect command result to external file
+
+mkdir day2
+cd day2
+./p1
+res.txt
+   
+==========================================================================
+
+cmd1 >>result.log 2>&1
+
+cmd2 >>result.log 2>&1
+
+cmd3 >>result.log 2>&1
+
+cmd4 >>result.log 2>&1
+...
+cmdN >>result.log 2>&1
+
+
+to clean a file
+---------------
+
+
+/dev/null   ----> charcater type device file
+
+---------
+  |-----------clean up purpose -- has empty content
+
+
+cp /dev/null result.log
+
+|---> command - result ---displays to monitor
+      |
+      |--------command>>result.log 2>&1
+      |--------command>>/dev/null 2>&1
+                       ----------
+=============================================================================                       
+
+File,Process-----Data under cpu
+ |
+ Data under storage
+
+
+1. fetch data from memory
+2. store in reg
+3. executes the instruction // Process
+
+
+date
+|
+file   ELF   /bin
+  
+date{Enter}----> Process
+     ----> process ID, PPID, STATE....
+ 
+          process
+|-----------------------------------------------|
+| 						|
+|						|
+1. user process					2. system process
+
+- by user                                        - by system (Systemd or init)
+-TTY :pts/portnumber                             - TTY: ?
+
+- after success login
+    user process(shell) is created
+
+- parent process of all user process               parent process for all system process            
+                      is shell                      is Systemd (or) init
+
+
+Systemd  OL[78]
+        RHL[78]
+        DEB[16,17,18]
+
+init OL[5,6]
+     RHL[56]
+
+
+init					Systemd
+
+p1                                            p1
+|                                              |
+p2                                       ----------------------
+|                                       p2  p3  p4 .... pn
+p3
+
+
+
+--------------------------------------------------------------------------------------
+
+ps 
+ps -e or ps -A
+
+ps -e|grep <processName>
+
+ps -e|grep <processId>
+
+
+P-->C
+P--suspend  ---> c -running
+             ---> c-- terminates
+P-->resumes
+
+system process (or) service (or) daemon --- Always active
+
+ssh <remotehost>  // user process --- sshd.service // system process
+                                          R+
+-----------------------------------------------------------------------------------
+
+systemctl start sshd.service 
+systemctl stop sshd.service
+
+systemctl status sshd.service  (or) systemctl is-active sshd.service
+
+systemctl restart sshd.service
+
+|================|
+     |
+ssh remotehost
+
+===========================================================================================
+
+To transfer the process to the background
+ |
+ command&
+    |-------------->---[eventId] PID	
+
+see list of all background process==> jobs
+
+jobs -p  pid of all background process
+jobs -s  stopped process
+jobs -r  running process
+
+To transfer the process from background to foreground
+     |
+     fg %eventId
+
+To run a file at background
+
+bg %eventId
+
+
+==================================================================================
+
+To terminate process
+
+kill -l{enter}
+    |------------------------List of all signal
+
+kill -SIGKILL <pid>   (or)  kill -9 <pid>
+
+=================================================================================
+ps
+ps -e (or) ps -A
+ps -l
+ps -f
+
+command&
+
+jobs
+
+fg %eventId
+
+kill -9 pid
+================================================================
+
+Task
+====
+
+1. create a directory file          mkdir  Demo
+2. change to directory              cd Demo
+3. create a file (vi editor)       vi p1
+
+    - using echo command - display kernel name and version    echo "Working kernel name:`uname`"
+                         -  "      login path and login Id    echo " Working kernel version `uname -r`"  
+                         - sleep 4                             sleep 4
+			 - "      Working directory            echo "Present working directory:`pwd`"
+                         - sleep 4                             sleep 4
+			 -  "        date/time                 echo "Today "`date`"
+                         -  "         thankyou                  echo  "Thankyou"
+
+save and exit                                                 Esc :wq
+
+4. give execute permission  to all                         chmod +x p1
+5. run file & redirect it to external file                ./p1> r1.log (or)
+                                                          /root/D2/p1>r1.log
+-----------------------------------------------------------
+|
+6. edit --> sleep 600 --> save and exit---> run file in background  /root/D2/p1>r1.log&
+7. jobs -see status and eventId                                     jobs--> Running
+
+8. transfer the process to foreground                                 fg %eventId
+--> (ctrl+z)---stopped state-------- jobs-- see process status        jobs--> stopped
+     
+     run a file from background (bg %eventId)                       bg %eventId
+
+9. kill running process       kill -9 pid
+
+=========================================================================================
+
+
+process state
+-------------
+p1 (pid,pstate,pAddress...) // Process control block (PCB)
+
+p1  parent
+|
+p2   child----> pid, pstate,pAddress
+
+                        (4)
+	p1 Wait -<---------------
+(1)	|                       | exit signal
+	p2 Running (R+)---exit---
+            (2)           (3)
+
+
+  p1  pid:101    wait ====> killed 
+  |
+  p2  pid:102, ppid:101 ---> R+   // orphan process
+
+
+  p1 - wait
+  |                    signal is Blocked
+  p2 - R+.....->exit --|
+==========================
+   Zombie (z)
+========================================================================================
+
+vi editor
+|--------------------------------------------------|
+insert mode                     command mode - save,copy,paste,delete,insert newline(below, Above)..
+...                                            ---- ---  ----- -----  -----------------------------
+...                               ESC           :w   yy   p     dd     o (lowercase)- create a newline below
+                                                                                    - changes the mode to insert mode
+                                                                      O(uppercase) - creates a newline above
+esc :wq  save and exit                                                             - changes to insert mode
+    :q!   force to exit
+
+
+ESC  :set nu   - set the line number
+
+ESC  :set nonu  - unset the line number
+
+recap single line copy --yy
+                   paste --p
+
+n,m th copy and paste---->   ESc :n,m co x
+                                  |----------from nth line to mth line copied and pasted after the content in xth line
+ 
+recap dd- single line
+
+ESC :n,m del
+
+ESC  :%s/oldpattern/newtext/    - only 1st occurence
+
+ESC : %s/oldpattern/newtext/g   - global
+
+ESC :%s/oldpattern/newtext/i     - ignorecase
+
+ESC  :%s/oldpattern/newtext/ig   
+
+ESC /searchpattern  press n=> next
+
+===========================================================================================================================
+
+
+find - searches for a file
+|
+based on
+-name
+-type
+-size
+
+-perm
+
+find -perm 777
+(or)
+
+find -perm -u=rwx
+
+------------------------------------------------------------------------------------------
+
+diff - compares files
+
+-------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
+shell - interface between user and kernel
+-----
+|
+commands
+|
+current working shell
+1. ps 
+2. echo $0  ===> special variable
+
+script- program
+------
+|-----> command based script
+|-----> variables, operators, conditional statemnets, looping statement, function
+
+script---> file---> filename.sh  (or) filename
+
+Automation--->scripting language--> Shellscript
+
+======================================================================================
+3 step of learning
+=================
+1.understand concept
+2. syntax
+3. see examples
+4. try exercise
+
+variables
+=========
+
+- namespace /paceholder---> hold a value
+                                   ------
+                                     |---string,number,command,commandresult
+
+Syntax:-
+
+variablename=value
+
+R1: variablename - start with a-zA-Z_ (not start with digits)
+                       not allow space ans special char
+R2: there is no space in = LHS and RHS
+
+count=3
+port=8080
+fname="Theeba"
+Ip="192.168.1.2"
+
+--------------------------// valid variables
+
+$variable---> value    (or)  ${variable}----> value
+
+
+
+keyboard <STDIN>--------------Script----------------Monitor <STDOUT>
+                       read                echo
+
+
+Syntax:-
+
+read variable
+     ========
+        |----------> userdefined
+====================================================================================
+read variable--- execution - input-- interactive input
+
+commandline arguments
+----------------------
+
+root@hostname~]# ./p1.sh <input1> <input2> <input3>...
+                         --------------------------
+                              |
+                             command line arguments
+root@hostname~]# ./p1.sh <input1> <input2> <input3>...
+                            $1      $2        $3
+$1
+$2
+..
+...
+$9 
+
+shift 2
+
+$1---> 30
+$2--->40
+------------------------------------------------------
+extented version
+${n}
+
+${1}
+${9}
+${19}
+
+
+$*  (or)  $@   - list of all commandline arg     - same as ${*} (or) ${@}
+
+
+$#  (or) ${#} - total count of commandline arg
+==========================================================================================
+Task
+====
+1.
+write a shellcript
+
+initialize a filename
+|
+using ls -l <filenamme>-- display filedetails
+
+--------------------------------------------------------------------------------
+2.
+Modify the above script 
+|
+read the filename from user through keyboard
+|
+using ls -l filename ---> display file details
+
+----------------------------------------------------------------------------------
+3. read the commands to be executed as comandline argument to the script file.
+   execute the command 
+-----------------------------------------------------------------------------------
+command result in variable
+--------------------------
+var="Raghav"
+var=2121
+var="date"----> str/text
+var_res=`date`----> cmd result in var
+
+Task
+4. Modify the task 3  and assign all command result to variables. use echo to display the command result.
+
+=========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
