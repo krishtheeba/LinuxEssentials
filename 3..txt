@@ -1,0 +1,593 @@
+Recap
+=====
+2>&1
+
+file permission ugo--> rwx
+chmod 
+Process-ps -types-systemctl cmd& jobs fg %eventid bg %enventid kill 
+find -perm diff
+
+shell script
+-variable
+-read
+-commandline arg
+------------------------------------------------------------------------
+
+To perform arithmetic operation
+
+1. expr command
+
+2. compound style expression
+
+
+expr
+====
+
+syntax:-
+
+expr<space>Operand<space><OPERATOR><space><Operand>
+
+
+expr 10 + 20 --> 30
+
+echo "\"Thankyou\""
+
+expr 10 \* 3 ====> 30
+
+-------------------------------------------------------------------------------------
+
+2. compound style
+=====================
+
+
+$((expression))
+
+-----------------------------------------------------------------------------------
+
+Relational operator
+-------------------
+        |
+        |
+        |
+|---------------------------|
+String                    Numbers
+
+a-z                       0-9 only
+A-Z                    
+"0-9"
+space
+specialchar
+
+
+==  !=                      -eq -ne -lt -le -gt -ge
+-------                      --  --  --  --- --  --
+
+
+10 -eq 20
+
+test operator
+=============
+
+ test   			(or)   []
+
+test<space>Expression            (or)   [<space>Expression<space>]
+
+test `whoami` == "root"        (or) [ `whoami` == "root ]
+
+
+$? - special variable - last command status (Success / Failure)
+                                                  |        |--- non-zero
+                                                  0
+Task
+====
+    
+Write shell cript
+
+- read disk name from <STDIN>
+- read disk size from <STDIN> 
+
+- read another disk name from <STDIN>
+- read another disk size from <STDIN> ex:150
+                                                
+- displat each partition name - size
+          Sum of partition size
+
+
+expected output
+--------------
+
+Partiton name : /dev/xvdb1   Size :150GB
+Partiton name : /dev/xvdb2   Size :200GB
+==========================================
+               Total Size      : 250 GB
+==========================================
+
+read -p "prompt message" var
+
+vs
+
+echo "Prompt message"
+read var
+=============================================
+
+
+Conditional statement
+----------------------
+|--> code block
+|--> execute only once
+
+|---> if statemnt
+
+i) if only
+===========
+Syntax:-
+
+if<space>[<space>Condition<space>]
+then
+      True block commands
+fi
+
+if then fi - keywords
+----------------------------------
+ii) if else style
+
+Syntax:-
+
+
+if<space>[<space>Expression<space>]
+then
+	True block
+else
+	False block- default stmt
+fi
+
+
+#if then else fi- keywords
+---------------------------------------
+
+command
+|
+
+if [ $? -eq 0 ]
+then
+	command-execution is success
+fi
+
+_______________________________________
+
+command
+|
+
+if [ $? -eq 0 ]
+then
+	command-execution is success
+else
+	command-execution is failed
+fi
+----------------------------------------------------------------------
+rpm -q zsh
+if [ $? -eq 0 ]
+then
+	echo "Package installation Success"
+fi
+
+systemctl is-active crond
+if [ $? -ne 0 ]
+then
+	echo "crond daemon is not active"
+fi
+
+Task
+=====
+1. write a shell script
+
+1. read a port from the <STDIN>
+2. test port is above 500 (501 and above)
+    |------------------|----Failed------------ Initialize App namme as demoApp
+    Success
+      |-------3. Initialize App name as testApp
+
+4. display Appname and port number
+
+===================================================================================
+
+Test user is root or not----- sorry not root user
+             |
+            load kernel module   ( modprobe <module>)
+               |-----------Failed----- loading failed
+                Success
+                  |
+                  $?-------- module loaded success
+        
+
+if [ `whoami` == "root" ]
+then
+	modprobe nfs
+        if [ $? -eq 0 ]
+ 	then
+		echo "Module nfs loaded successfully"
+	else
+		echo "Module nfs failed to load"
+	fi
+else
+	echo "Sorry you are not the root user"
+fi
+----------------------------------------------------------------------------------------
+iii) if..elif...else
+          |------------------multiconditional style
+
+Syntax:-
+======
+if<space>[ condition1 ]
+then
+	True block1
+elif<space>[ condition2 ]
+	True block2
+
+elif<space>[ condition3 ]
+then
+	True block3
+..
+..
+else
+  False block
+fi
+	
+Task
+====
+Write a shell script
+
+1. read a shell name from <STDIN>
+
+2. Test shell name is bash -----------------> initialize the profile filename as bashrc
+ 
+  Test shell name is csh ------------------> Initialize      "       "      "  as cshrc
+
+   Test  shell name is ksh -----------------> Initialize    "       "       " as kshrc
+     |
+     |
+   default shellname as /bin/nologin   - initialize profile filename as /etc/profile
+
+
+=========================================================================================
+Looping statements
+====================
+ - code block - execute more than once
+
+ 1. conditional style loop - based on bool value // success/failure
+
+ 2. collection style loop - based on no. of items
+
+1. conditional style loop
+---------------------------
+
+  - while keyword
+  - based on a bool value
+
+
+rule 1: Initialization
+rule 2: Condition
+rule 3: Arithmetic (increnet/decrement)
+
+Syntax:-
+
+variable=<initializedvalue>
+
+while<Space>[ condition ]
+do
+	code block
+	arithmetic operation
+done
+
+keywords- while, do, done
+
+--------------------------------------------------------------------------------------
+2. collection style loop - based on no. of items
+
+
+Syntax:-
+
+for variable in <list of items>
+do
+	codeblock
+done
+
+for, do, done- keywords
+
+- break - exit from loop
+- continue - ignore current iteration
+
+-------------------------------------------------------------------------------------
+Task
+=====
+i). Write a shell script
+
+200 300 400 500
+
+Calculate sum of sizes.
+
+==========================================================================================
+ii). Write a shell script 
+
+1.read a pin from <STDIN>
+
+2.Test whether pin matches with 1234 
+   |
+   |----- Failed-----"Pin doesnot match"
+   |-----Success--" Success Pin matched" 
+
+========================================================================================
+
+iii) Modify the above (ii) task.
+     User should have 3 chances to enter the pin
+
+========================================================================================
+
+iv) Write a shell script
+
+# display list of files from current directory in below format
+
+1. p1.sh
+2. p2.sh
+3. p3.sh
+.
+.
+.
+19. p19.sh
+
+Total no. of files : 19
+=====================================================================================
+
+V) filter the config files under /etc
+1-yum.conf
+2-ld.so.conf
+....
+.....
+Total no of conf files:10
+=======================================================================================
+Vi) v="sh csh ksh bash zsh tcsh"
+(use for and  if)
+  A) sh
+     csh   # break
+   
+  B) sh    # continue
+     csh
+     bash
+     zsh
+     tcsh
+=====================================================================================
+
+Function
+========
+
+- code block
+
+- reusability
+
+function
+ -----| function defn
+ -----| function call
+
+Syntax:-
+
+function functionName()
+{
+	codeblock// definition  block
+}
+
+function- keyword, optional
+
+is same as
+
+functionName()
+{
+	codeblock
+}
+
+
+functionname====> simple function call
+
+
+======================================================================================
+list of hosts
+------------
+/etc/hosts
+
+cat /etc/hosts
+
+host01         Host01@example.com    10.20.30.40
+------          -----------------    -----------
+alias            FQDN                  Ip
+
+ping host1   (or) ping host01@example.co    (or) ping 10.20.30.40
+-----------------------------------------------------------------------
+recap cp file1 D1
+
+file copy to remote m/c
+-----------------------
+userA@host1~]$ su -{Enter}
+
+username:
+passwd:
+
+scp <remoteIp>:filepath <local directory>   - copy file from remote m/c to local m/c
+scp host01:/root/emp.csv  /tmp
+scp host01:/root/emp.csv  .
+
+scp <localdir> <remoteIp>:filepath - copy file from local directory to remote m/c
+scp -r file1 host02:/home/userB/D1    
+scp -r ~/day3 host02:/tmp
+--------------------------------------------------------------------------------------
+password less authentication
+=============================
+Host01                              Host02
+|                                    |
+userA@host1~]$                     userB@host2~]$
+
+Loginname:
+passwd:
+
+
+ssh-keygen -t rsa{enter}
+..{enter}
+..{enter}
+
+cd ~/.ssh
+ls
+id_rsa.pub    // pub key
+
+scp ~/.ssh/id_rsa.pub      host02:/home/userB/.ssh/authorized_keys    
+=========================================================================================
+umask - predefined flag values
+
+root user mask ---> 022
+7 7 7
+0 2 2
+------
+7 5 5
+======
+ rwxr-xr-x
+
+non-root user mask--> 002
+
+7 7 7
+0 0 2
+-----
+7 7 5
+
+rwxrwxr-x
+========================================================================================
+
+gzip
+----
+p1.txt
+
+gzip p1.sh=====> p1.sh.gz 
+
+view content without unzip
+---------------------------
+zcat p1.sh.gz
+....
+....
+
+
+tar
+----
+- create backup
+                 tar -cf backup.tar <list of files>
+                    (or)
+                  tar -cvf backup.tar <list of files>
+
+-list a backup    tar -tvf backup.tar
+
+-extract a backup  tar -xvf backup.tar
+
+
+======================================================================================
+root user password is OU99208990 
+
+<student@host~]$su - {enter}
+OU99208990{enter}
+OU99208990{enter}
+
+Enter your passwd:...
+Retype your passwd:...
+|
+whoami---> root
+|
+pwd ------> /root
+
+useradd <username>
+
+passwd <username>
+
+userdel -r  <username> 
+
+usermod -r <username>
+
+
+cat /etc/passwd---- username,loginpath, login shell
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
